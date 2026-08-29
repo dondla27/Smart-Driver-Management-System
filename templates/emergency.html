@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emergency SOS</title>
+
+    <style>
+        body{
+            font-family:Arial;
+            text-align:center;
+            background:#ffe6e6;
+        }
+
+        h1{
+            color:red;
+        }
+
+        button{
+            padding:12px 20px;
+            font-size:18px;
+            margin:10px;
+            cursor:pointer;
+        }
+
+        #map{
+            margin-top:20px;
+        }
+
+        .box{
+            background:white;
+            width:70%;
+            margin:auto;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0px 0px 10px gray;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>🚨 EMERGENCY SOS ACTIVATED 🚨</h1>
+
+<h2>Driver Needs Immediate Assistance</h2>
+
+<hr>
+
+<h3>📍 Current GPS Location</h3>
+
+Latitude :
+<span id="lat">Loading...</span>
+
+<br><br>
+
+Longitude :
+<span id="lon">Loading...</span>
+
+<br><br>
+
+<div id="map"></div>
+
+<hr>
+
+<h3>📞 Emergency Contact</h3>
+
+<p>
+<b>Prasanna's Emergency Contact</b>
+</p>
+
+<p style="font-size:22px;color:red;">
++91 9876543210
+</p>
+
+<a href="tel:+919876543210">
+<button style="background:red;color:white;">
+📞 Call Now
+</button>
+</a>
+
+<hr>
+
+<h3>📧 Emergency Alert</h3>
+
+<textarea
+id="message"
+rows="8"
+cols="60"
+readonly>
+
+Emergency Alert!
+
+Driver may be unconscious.
+
+Current Location:
+
+Waiting for GPS...
+
+Please reach immediately.
+
+</textarea>
+
+<br><br>
+
+<button onclick="sendAlert()"
+style="background:green;color:white;">
+Send Emergency Alert
+</button>
+
+</div>
+
+<script>
+
+function sendAlert(){
+
+alert("Emergency Alert Sent Successfully!");
+
+}
+
+if(navigator.geolocation){
+
+navigator.geolocation.getCurrentPosition(showPosition);
+
+}
+
+function showPosition(position){
+
+let lat=position.coords.latitude;
+
+let lon=position.coords.longitude;
+
+document.getElementById("lat").innerHTML=lat;
+
+document.getElementById("lon").innerHTML=lon;
+
+document.getElementById("map").innerHTML=
+
+`<iframe
+width="700"
+height="400"
+src="https://maps.google.com/maps?q=${lat},${lon}&z=15&output=embed">
+</iframe>`;
+
+document.getElementById("message").value=
+
+`Emergency Alert!
+
+Driver may be unconscious.
+
+Current GPS Location
+
+Latitude : ${lat}
+
+Longitude : ${lon}
+
+Google Maps:
+
+https://maps.google.com/?q=${lat},${lon}
+
+Please reach immediately.`;
+
+}
+
+</script>
+
+</body>
+</html>

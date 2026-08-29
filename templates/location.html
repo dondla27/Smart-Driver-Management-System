@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live GPS Tracking</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            text-align:center;
+        }
+
+        #map{
+            height:500px;
+            width:90%;
+            margin:auto;
+            border:2px solid black;
+        }
+
+        h2{
+            color:blue;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>📍 Live Driver Location</h2>
+
+<div id="map"></div>
+
+<p id="location"></p>
+
+<script>
+
+let map;
+let marker;
+
+function initMap(){
+
+    map = new google.maps.Map(document.getElementById("map"),{
+
+        zoom:15,
+
+        center:{lat:0,lng:0}
+
+    });
+
+    marker=new google.maps.Marker({
+
+        position:{lat:0,lng:0},
+
+        map:map
+
+    });
+
+    navigator.geolocation.watchPosition(showPosition);
+
+}
+
+function showPosition(position){
+
+    let lat=position.coords.latitude;
+
+    let lng=position.coords.longitude;
+
+    let location={lat:lat,lng:lng};
+
+    marker.setPosition(location);
+
+    map.setCenter(location);
+
+    document.getElementById("location").innerHTML=
+
+    "<b>Latitude:</b> "+lat+
+
+    "<br><b>Longitude:</b> "+lng;
+    
+fetch("/save_location", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        latitude: lat,
+        longitude: lng
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.log(error));
+}
+
+</script>
+
+<!-- Replace YOUR_API_KEY -->
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQi3UVCn-Qqz2JVnCImB2ZNyWYHGyqAXg&callback=initMap">
+</script>
+
+</body>
+
+</html>

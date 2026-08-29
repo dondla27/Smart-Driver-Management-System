@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Driver Report</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/report.css') }}">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📊 DRIVER REPORT</h1>
+
+<table>
+
+<tr>
+<th>Driver Name</th>
+<td>{{driver_name}}</td>
+</tr>
+
+<tr>
+<th>Driver Score</th>
+<td>{{score}}%</td>
+</tr>
+
+<tr>
+<th>Driving Time</th>
+<td>{{driving_time}}</td>
+</tr>
+
+<tr>
+<th>Drowsiness</th>
+<td>{{drowsiness}}</td>
+</tr>
+
+<tr>
+<th>Yawning</th>
+<td>{{yawn}}</td>
+</tr>
+
+<tr>
+<th>Phone Usage</th>
+<td>{{phone}}</td>
+</tr>
+
+<tr>
+<th>Head Distraction</th>
+<td>{{head}}</td>
+</tr>
+
+<tr>
+<th>Emergency Alerts</th>
+<td>{{emergency}}</td>
+</tr>
+
+<tr>
+<th>Latitude</th>
+<td>{{latitude}}</td>
+</tr>
+
+<tr>
+<th>Longitude</th>
+<td>{{longitude}}</td>
+</tr>
+
+</table>
+
+<h2>📈 Driver Analytics</h2>
+
+<canvas id="driverChart"></canvas>
+
+<br>
+
+<button onclick="window.print()">
+🖨️ Print Report
+</button>
+
+<a href="/dashboard">
+<button>
+⬅ Back Dashboard
+</button>
+</a>
+
+</div>
+
+<script>
+
+const ctx=document.getElementById('driverChart');
+
+new Chart(ctx,{
+
+type:'bar',
+
+data:{
+
+labels:[
+'Drowsiness',
+'Yawning',
+'Phone',
+'Head Pose',
+'Emergency'
+],
+
+datasets:[{
+
+label:'Driver Monitoring',
+
+data:[
+{{drowsiness}},
+{{yawn}},
+{{phone}},
+{{head}},
+{{emergency}}
+]
+
+}]
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

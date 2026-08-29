@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vehicle Speed</title>
+
+    <style>
+        body{
+            text-align:center;
+            font-family:Arial;
+            background:#f4f4f4;
+        }
+
+        h1{
+            color:#0a58ca;
+        }
+
+        #speed{
+            font-size:70px;
+            color:red;
+            font-weight:bold;
+            margin-top:40px;
+        }
+
+        #status{
+            font-size:25px;
+            color:green;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🚗 Vehicle Speed</h1>
+
+<div id="speed">0 km/h</div>
+
+<p id="status">Waiting for GPS...</p>
+
+<script>
+
+let lastLat = null;
+let lastLng = null;
+let lastTime = null;
+
+navigator.geolocation.watchPosition(function(position){
+
+    let lat = position.coords.latitude;
+    let lng = position.coords.longitude;
+    let now = Date.now();
+
+    if(lastLat != null){
+
+        function distance(lat1,lon1,lat2,lon2){
+
+            const R = 6371000;
+
+            let dLat=(lat2-lat1)*Math.PI/180;
+            let dLon=(lon2-lon1)*Math.PI/180;
+
+            let a=Math.sin(dLat/2)*Math.sin(dLat/2)+
+            Math.cos(lat1*Math.PI/180)*
+            Math.cos(lat2*Math.PI/180)*
+            Math.sin(dLon/2)*Math.sin(dLon/2);
+
+            let c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+
+            return R*c;
+        }
+
+        let dist = distance(lastLat,lastLng,lat,lng);
+
+        let time = (now-lastTime)/1000;
+
+        let speed = (dist/time)*3.6;
+
+        document.getElementById("speed").innerHTML =
+        speed.toFixed(2)+" km/h";
+
+        if(speed>80)
+            document.getElementById("status").innerHTML =
+            "⚠ Overspeeding";
+        else
+            document.getElementById("status").innerHTML =
+            "✅ Normal Speed";
+    }
+
+    lastLat=lat;
+    lastLng=lng;
+    lastTime=now;
+
+});
+
+</script>
+
+</body>
+</html>
