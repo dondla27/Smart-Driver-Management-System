@@ -1,26 +1,6 @@
-# Python
 __pycache__/
-*.py[cod]
-*.pyo
-
-# Virtual environment
-venv/
-env/
+*.pyc
 .venv/
-
-# Environment variables / secrets
+venv/
 .env
-.env.*
-
-# IDE
-.vscode/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Python cache
-.pytest_cache/
-
-# Large/generated files
 *.log
